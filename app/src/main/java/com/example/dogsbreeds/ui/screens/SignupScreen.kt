@@ -26,20 +26,25 @@ import com.example.dogsbreeds.R
 import com.example.dogsbreeds.ui.composables.AppBar
 import com.example.dogsbreeds.ui.composables.CustomButton
 
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginScreen() {
+fun SignUpScreen() {
 
-    var userEmail by rememberSaveable {
+    var userName by rememberSaveable {
         mutableStateOf("")
     }
     var userPassword by rememberSaveable {
         mutableStateOf("")
     }
 
+    var userFullName by rememberSaveable {
+        mutableStateOf("")
+    }
+
 
     Scaffold(topBar = {
-        AppBar(title = "Login")
+        AppBar(title = "Signup")
     }) {
         Column(
             modifier = Modifier
@@ -52,13 +57,22 @@ fun LoginScreen() {
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Image(
-                painter = painterResource(id = R.drawable.login_img),
+                painter = painterResource(id = R.drawable.signup_img),
                 contentDescription = "Login image"
             )
             OutlinedTextField(
-                value = userEmail,
+                value = userFullName,
                 onValueChange = { value ->
-                    userEmail = value
+                    userFullName = value
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            )
+            OutlinedTextField(
+                value = userName,
+                onValueChange = { value ->
+                    userName = value
                 },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -74,7 +88,8 @@ fun LoginScreen() {
                     .padding(16.dp)
             )
 
-            CustomButton(title = "Login")
+            CustomButton(title = "Register")
+
             Text("OR")
             Row(
                 modifier = Modifier
@@ -83,8 +98,8 @@ fun LoginScreen() {
                 horizontalArrangement = Arrangement.Center
             )
             {
-                Text("Don't have an account ? ")
-                Text("Register ")
+                Text("Already have an account ? ")
+                Text("Login ")
             }
         }
     }
