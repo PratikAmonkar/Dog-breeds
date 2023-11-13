@@ -7,9 +7,16 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -22,7 +29,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.dogsbreeds.R
 import com.example.dogsbreeds.ui.composables.AlertBox
 import com.example.dogsbreeds.ui.composables.AppBar
@@ -55,43 +67,101 @@ fun SignUpScreen() {
         Column(
             modifier = Modifier
                 .padding(it)
-                .fillMaxSize(),
-//                .verticalScroll(
-////                    rememberScrollState(),
-//
-//                    ),
+                .fillMaxSize()
+                .verticalScroll(
+                    rememberScrollState(),
+
+                    ),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Image(
                 painter = painterResource(id = R.drawable.signup_img),
-                contentDescription = "Login image"
+                contentDescription = "Login image",
+                modifier = Modifier.size(300.dp)
             )
             OutlinedTextField(
                 value = userFullName,
                 onValueChange = { value ->
                     userFullName = value
                 },
+                placeholder = {
+                    Text(
+                        "Enter username",
+                        style = TextStyle(fontSize = 18.sp, fontWeight = FontWeight.W500)
+                    )
+                },
+                textStyle = TextStyle(fontSize = 18.sp, fontWeight = FontWeight.W500),
+                leadingIcon = {
+                    Icon(imageVector = Icons.Filled.Person, contentDescription = "Person icon")
+                },
+                keyboardOptions = KeyboardOptions(
+                    autoCorrect = false,
+                    keyboardType = KeyboardType.Text,
+                    imeAction = ImeAction.Done
+                ),
+                keyboardActions = KeyboardActions(
+                    onDone = {}
+                ),
+                singleLine = true,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp)
+                    .padding(16.dp),
             )
             OutlinedTextField(
                 value = userName,
                 onValueChange = { value ->
                     userName = value
                 },
+                placeholder = {
+                    Text(
+                        "Enter full name",
+                        style = TextStyle(fontSize = 18.sp, fontWeight = FontWeight.W500)
+                    )
+                },
+                textStyle = TextStyle(fontSize = 18.sp, fontWeight = FontWeight.W500),
+                leadingIcon = {
+                    Icon(imageVector = Icons.Filled.Person, contentDescription = "Person icon")
+                },
+                keyboardOptions = KeyboardOptions(
+                    autoCorrect = false,
+                    keyboardType = KeyboardType.Text,
+                    imeAction = ImeAction.Done
+                ),
+                keyboardActions = KeyboardActions(
+                    onDone = {}
+                ),
+                singleLine = true,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp)
+                    .padding(16.dp),
             )
             OutlinedTextField(
                 value = userPassword,
                 onValueChange = { value ->
                     userPassword = value
                 },
+                placeholder = {
+                    Text(
+                        "Enter password",
+                        style = TextStyle(fontSize = 18.sp, fontWeight = FontWeight.W500)
+                    )
+                },
+                textStyle = TextStyle(fontSize = 18.sp, fontWeight = FontWeight.W500),
+                leadingIcon = {
+                    Icon(imageVector = Icons.Filled.Lock, contentDescription = "Password icon")
+                },
+                keyboardOptions = KeyboardOptions(
+                    autoCorrect = false,
+                    keyboardType = KeyboardType.Text,
+                    imeAction = ImeAction.Done
+                ),
+                keyboardActions = KeyboardActions(
+                    onDone = {}
+                ),
+                singleLine = true,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp)
+                    .padding(16.dp),
             )
 
             CustomButton(title = "Register", action = {
@@ -107,7 +177,7 @@ fun SignUpScreen() {
                     title = "Some fields are empty"
                 )
             }
-            Text("OR")
+            Text("OR", style = TextStyle(fontSize = 16.sp, fontWeight = FontWeight.W400))
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -115,10 +185,12 @@ fun SignUpScreen() {
                 horizontalArrangement = Arrangement.Center
             )
             {
-                Text("Already have an account ? ")
-                Text("Login ")
+                Text(
+                    "Already have an account ? ",
+                    style = TextStyle(fontSize = 16.sp, fontWeight = FontWeight.W400)
+                )
+                Text("Login ", style = TextStyle(fontSize = 16.sp, fontWeight = FontWeight.W400))
             }
-
 
 
         }
