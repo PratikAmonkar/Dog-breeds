@@ -6,13 +6,19 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.dogsbreeds.R
 import com.example.dogsbreeds.ui.composables.AppBar
 import com.example.dogsbreeds.ui.composables.BreedDetail
@@ -33,11 +39,22 @@ fun DetailScreen() {
         ) {
             Image(
                 painter = painterResource(id = R.drawable.dog_img),
-                contentDescription = "Dog image",
-                modifier = Modifier.fillMaxWidth()
+                contentDescription = "dog image",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(20.dp))
+
             )
-            Text("Dog name")
-            Text(text = "Details")
+            Text(
+                "Dog name",
+                style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 20.sp),
+                modifier = Modifier.padding(16.dp)
+            )
+            Text(
+                text = "Details",
+                modifier = Modifier.padding(16.dp),
+                style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.Bold)
+            )
             BreedDetail()
             BreedDetail()
             BreedDetail()
@@ -50,34 +67,6 @@ fun DetailScreen() {
             BreedDetail()
             BreedDetail()
             BreedDetail()
-//
-//            Row(modifier = Modifier.fillMaxWidth().padding(16.dp)) {
-//                Text("Breed group", modifier = Modifier.weight(1f))
-//                Text(text = "Terrier", modifier = Modifier.weight(1f))
-//            }
-//            Row(modifier = Modifier.fillMaxWidth()) {
-//                Text("Breed purpose", modifier = Modifier.weight(1f))
-//                Text(text = "Fighting", modifier = Modifier.weight(1f))
-//            }
-//            Row(modifier = Modifier.fillMaxWidth()) {
-//                Text("Average Lifespan", modifier = Modifier.weight(1f))
-//                Text(text = "10 - 15 years", modifier = Modifier.weight(1f))
-//            }
-//            Row(modifier = Modifier.fillMaxWidth()) {
-//                Text("Character Traits", modifier = Modifier.weight(1f))
-//                Text(
-//                    text = "Strong Willed, Stubborn, Friendly, Clownish, Affectionate, Loyal, Obedient, Intelligent, Courageous",
-//                    modifier = Modifier.weight(1f)
-//                )
-//            }
-//            Row(modifier = Modifier.fillMaxWidth()) {
-//                Text("Average heights", modifier = Modifier.weight(1f))
-//                Text(text = "41 - 54", modifier = Modifier.weight(1f))
-//            }
-//            Row(modifier = Modifier.fillMaxWidth()) {
-//                Text("Average width", modifier = Modifier.weight(1f))
-//                Text(text = "41 - 54", modifier = Modifier.weight(1f))
-//            }
         }
     }
 }
