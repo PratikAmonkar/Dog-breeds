@@ -5,8 +5,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 
 @Composable
-fun CustomButton(title:String) {
-    Button(onClick = {}) {
+fun CustomButton(title: String, action: () -> Unit) {
+    Button(onClick = {
+        action()
+    }) {
         Text(title)
     }
 }

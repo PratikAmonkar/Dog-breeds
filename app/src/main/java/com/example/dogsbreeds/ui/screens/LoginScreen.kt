@@ -74,7 +74,7 @@ fun LoginScreen() {
                     .padding(16.dp)
             )
 
-            CustomButton(title = "Login")
+            CustomButton(title = "Login", action = {})
             Text("OR")
             Row(
                 modifier = Modifier

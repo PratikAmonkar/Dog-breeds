@@ -16,6 +16,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -23,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.dogsbreeds.R
+import com.example.dogsbreeds.ui.composables.AlertBox
 import com.example.dogsbreeds.ui.composables.AppBar
 import com.example.dogsbreeds.ui.composables.CustomButton
 
@@ -42,6 +44,10 @@ fun SignUpScreen() {
         mutableStateOf("")
     }
 
+    var showAlertBox by remember {
+        mutableStateOf(false)
+    }
+
 
     Scaffold(topBar = {
         AppBar(title = "Signup")
@@ -49,11 +55,11 @@ fun SignUpScreen() {
         Column(
             modifier = Modifier
                 .padding(it)
-                .fillMaxSize()
-                .verticalScroll(
-                    rememberScrollState(),
-
-                    ),
+                .fillMaxSize(),
+//                .verticalScroll(
+////                    rememberScrollState(),
+//
+//                    ),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Image(
@@ -88,8 +94,19 @@ fun SignUpScreen() {
                     .padding(16.dp)
             )
 
-            CustomButton(title = "Register")
-
+            CustomButton(title = "Register", action = {
+                showAlertBox = true
+            })
+            if (showAlertBox) {
+                AlertBox(
+                    confirmAction = {},
+                    dismissAction = {
+                        showAlertBox = false
+                    },
+                    status = "Warning",
+                    title = "Some fields are empty"
+                )
+            }
             Text("OR")
             Row(
                 modifier = Modifier
@@ -101,6 +118,9 @@ fun SignUpScreen() {
                 Text("Already have an account ? ")
                 Text("Login ")
             }
+
+
+
         }
     }
 }
