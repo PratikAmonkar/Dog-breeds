@@ -13,10 +13,13 @@ data class DogBreed(
     val height: Height,
     val id: Int,
     val name: String,
-    val bred_for: String,
-    val breed_group: String,
+    val country_code: String? = null, // Make it nullable if it's optional
+    val bred_for: String? = null,     // Make it nullable if it's optional
+    val breed_group: String? = null,  // Make it nullable if it's optional
     val life_span: String,
     val temperament: String,
+    val origin: String? = null,        // Make it nullable if it's optional
+    val description: String? = null,   // Make it nullable if it's optional
     val reference_image_id: String
 )
 

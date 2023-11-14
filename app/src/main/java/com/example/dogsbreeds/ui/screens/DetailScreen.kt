@@ -102,14 +102,17 @@ fun DetailScreen(
                             style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 20.sp),
                             modifier = Modifier.padding(16.dp)
                         )
+
+
                         Text(
-                            text = "Details",
-                            modifier = Modifier.padding(16.dp),
-                            style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.Bold)
+                            text = item.description ?: "",
+                            style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.Bold),
+
                         )
+
                         BreedDetail(
                             attribute = "Breed Group",
-                            value = item.breed_group,
+                            value = item.breed_group ?: "Unknown",
                         )
                         BreedDetail(
                             attribute = "Character Traits",
@@ -129,7 +132,15 @@ fun DetailScreen(
                         )
                         BreedDetail(
                             attribute = "Breed Purpose",
-                            value = item.bred_for,
+                            value = item.bred_for ?: "Unknown",
+                        )
+                        BreedDetail(
+                            attribute = "Origin",
+                            value = item.origin ?: "Unknown",
+                        )
+                        BreedDetail(
+                            attribute = "Country",
+                            value = item.country_code ?: "Unknown",
                         )
                     }
                 }
