@@ -4,7 +4,7 @@ import android.app.Application
 import com.example.dogsbreeds.container.AppContainer
 import com.example.dogsbreeds.container.AppDataContainer
 
-class DogBreedsApplication : Application() {
+class DogsBreedsApplication : Application() {
     lateinit var container: AppContainer
 
     override fun onCreate() {

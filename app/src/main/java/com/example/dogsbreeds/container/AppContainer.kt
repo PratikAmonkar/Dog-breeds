@@ -1,18 +1,31 @@
 package com.example.dogsbreeds.container
 
 import android.content.Context
-import com.example.dogsbreeds.database.DogsBreedsDatabase
-import com.example.dogbreeds.repositories.OfflineUserRepository
-import com.example.dogbreeds.repositories.UserRepository
+import com.example.dogsbreeds.network.DogApiService
+import com.example.dogsbreeds.repositories.DogRepository
+import com.example.dogsbreeds.repositories.FetchDogRepository
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 interface AppContainer {
-    val userRepository: UserRepository
+    val dogRepository: DogRepository
 }
 
 class AppDataContainer(private val context: Context) : AppContainer {
-    override val userRepository: UserRepository by lazy {
-        OfflineUserRepository(DogsBreedsDatabase.getDatabase(context).userDao())
+
+    private val baseUrl = "https://api.thedogapi.com/v1/"
+
+    private val retrofit = Retrofit.Builder()
+        .baseUrl(baseUrl)
+        .addConverterFactory(GsonConverterFactory.create())
+        .build();
+
+    private val retrofitServiceForDog: DogApiService by lazy {
+        retrofit.create(DogApiService::class.java)
     }
 
 
+    override val dogRepository: DogRepository by lazy {
+        FetchDogRepository(retrofitServiceForDog)
+    }
 }

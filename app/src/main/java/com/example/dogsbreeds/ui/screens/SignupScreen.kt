@@ -38,7 +38,6 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.dogsbreeds.R
 import com.example.dogsbreeds.provider.AppViewModelProvider
-import com.example.dogsbreeds.state.SignupScreenViewModel
 import com.example.dogsbreeds.ui.composables.AlertBox
 import com.example.dogsbreeds.ui.composables.AppBar
 import com.example.dogsbreeds.ui.composables.CustomButton
@@ -46,9 +45,7 @@ import com.example.dogsbreeds.ui.composables.CustomButton
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SignUpScreen(
-    viewModel: SignupScreenViewModel = viewModel(factory = AppViewModelProvider.Factory),
-) {
+fun SignUpScreen() {
 
     var userName by rememberSaveable {
         mutableStateOf("")

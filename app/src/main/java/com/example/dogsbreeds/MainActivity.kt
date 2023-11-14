@@ -22,7 +22,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    DoneIt()
+                    DogsBreeds()
                 }
             }
         }
@@ -30,6 +30,6 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun DoneIt(navController: NavHostController = rememberNavController()) {
+fun DogsBreeds(navController: NavHostController = rememberNavController()) {
     NavigationHost(navController = navController)
 }

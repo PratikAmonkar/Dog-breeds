@@ -12,19 +12,19 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun BreedDetail() {
+fun BreedDetail(attribute: String, value: String) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 10.dp)
     ) {
         Text(
-            "Breed group",
+            attribute,
             modifier = Modifier.weight(1f),
             style = TextStyle(fontSize = 18.sp, fontWeight = FontWeight.SemiBold)
         )
         Text(
-            text = "Terrier",
+            text = value,
             modifier = Modifier.weight(1f),
             style = TextStyle(fontSize = 18.sp, fontWeight = FontWeight.SemiBold)
         )

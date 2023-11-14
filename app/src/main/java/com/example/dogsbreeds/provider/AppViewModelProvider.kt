@@ -4,18 +4,24 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import com.example.dogsbreeds.DogBreedsApplication
-import com.example.dogsbreeds.state.SignupScreenViewModel
+import com.example.dogsbreeds.DogsBreedsApplication
+import com.example.dogsbreeds.state.DetailScreenViewModel
+import com.example.dogsbreeds.state.HomeScreenViewModel
 
 object AppViewModelProvider {
     val Factory = viewModelFactory {
         initializer {
-            SignupScreenViewModel(
-                inventoryApplication().container.userRepository,
+            HomeScreenViewModel(
+                inventoryApplication().container.dogRepository,
+            )
+        }
+        initializer {
+            DetailScreenViewModel(
+                inventoryApplication().container.dogRepository,
             )
         }
     }
 }
 
-fun CreationExtras.inventoryApplication(): DogBreedsApplication =
-    (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as DogBreedsApplication)
+fun CreationExtras.inventoryApplication(): DogsBreedsApplication =
+    (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as DogsBreedsApplication)
