@@ -24,11 +24,15 @@ object AppViewModelProvider {
         }
         initializer {
             SignUpScreenViewModel(
-            )
+                inventoryApplication().container.userRepository,
+
+                )
         }
         initializer {
             LoginScreenViewModel(
-            )
+                inventoryApplication().container.userRepository,
+
+                )
         }
     }
 }

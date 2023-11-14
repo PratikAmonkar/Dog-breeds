@@ -2,13 +2,15 @@ package com.example.dogsbreeds.state
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.dogsbreeds.repositories.DogRepository
+import com.example.dogsbreeds.repositories.UserRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.stateIn
 
-class LoginScreenViewModel() : ViewModel() {
+class LoginScreenViewModel(private val userRepository: UserRepository) : ViewModel() {
 
     private val _isLoading = MutableStateFlow(false)
 
