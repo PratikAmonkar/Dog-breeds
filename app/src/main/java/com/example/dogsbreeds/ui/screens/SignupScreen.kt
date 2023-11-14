@@ -62,7 +62,10 @@ fun SignUpScreen() {
 
 
     Scaffold(topBar = {
-        AppBar(title = "Signup", showNavIcon = false, popNavigation = {})
+        AppBar(
+            title = "Signup", showNavIcon = false, popNavigation = {}, showActionButton = false,
+            action = {},
+        )
     }) {
         Column(
             modifier = Modifier

@@ -1,5 +1,7 @@
 package com.example.dogsbreeds.ui.screens
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,9 +21,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
@@ -49,6 +55,9 @@ fun DetailScreen(
 
     imageId?.let { viewModel.getDogsBreedDetail(imageId = it) }
 
+    var isLargeImageVisible by remember { mutableStateOf(false) }
+
+
     when (detailUiState) {
         is DetailUiState.Loading -> {
             LoadingScreen()
@@ -70,91 +79,131 @@ fun DetailScreen(
                     AppBar(
                         title = item.name,
                         showNavIcon = true,
-                        popNavigation = { popNavigation() })
+                        popNavigation = { popNavigation() }, showActionButton = isLargeImageVisible,
+                        action = {
+                            isLargeImageVisible = false
+                        },
+                    )
                 }) {
-                    Column(
+                    Box(
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(it)
-                            .verticalScroll(
+                    ) {
+                        Column(
+                            modifier = Modifier.verticalScroll(
                                 rememberScrollState(),
                             ),
-                    ) {
-                        Box(
-                            modifier = Modifier
+                        ) {
+                            Box(modifier = Modifier
                                 .fillMaxWidth()
                                 .height(300.dp)
                                 .clip(RoundedCornerShape(16.dp))
                                 .wrapContentSize()
-                        ) {
-                            SubcomposeAsyncImage(
-                                model = ImageRequest.Builder(context = LocalContext.current)
-                                    .data(successState.listData.url).crossfade(true).build(),
-                                contentDescription = "dog image",
-                                loading = {
-                                    Column(
-                                        horizontalAlignment = Alignment.CenterHorizontally,
-                                        verticalArrangement = Arrangement.Center
-                                    ) {
-                                        Box(modifier = Modifier.size(50.dp)) {
-                                            CircularProgressIndicator()
+                                .clickable {
+                                    isLargeImageVisible = true
+                                }) {
+                                SubcomposeAsyncImage(
+                                    model = ImageRequest.Builder(context = LocalContext.current)
+                                        .data(successState.listData.url).crossfade(true).build(),
+                                    contentDescription = "dog image",
+                                    loading = {
+                                        Column(
+                                            horizontalAlignment = Alignment.CenterHorizontally,
+                                            verticalArrangement = Arrangement.Center
+                                        ) {
+                                            Box(modifier = Modifier.size(50.dp)) {
+                                                CircularProgressIndicator()
+                                            }
                                         }
-                                    }
-                                },
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(10.dp)
-                                    .clip(RoundedCornerShape(20.dp)),
-                                contentScale = ContentScale.Crop,
-                                alignment = Alignment.Center,
+                                    },
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(10.dp)
+                                        .clip(RoundedCornerShape(20.dp)),
+                                    contentScale = ContentScale.Crop,
+                                    alignment = Alignment.Center,
+                                )
+                            }
+
+                            Text(
+                                item.name,
+                                style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 20.sp),
+                                modifier = Modifier.padding(16.dp)
+                            )
+
+
+                            Text(
+                                text = item.description ?: "",
+                                style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.Bold),
+
+                                )
+
+                            BreedDetail(
+                                attribute = "Breed Group",
+                                value = item.breed_group ?: "Unknown",
+                            )
+                            BreedDetail(
+                                attribute = "Character Traits",
+                                value = item.temperament,
+                            )
+                            BreedDetail(
+                                attribute = "Average Lifespan",
+                                value = item.life_span,
+                            )
+                            BreedDetail(
+                                attribute = "Average height",
+                                value = item.height.metric,
+                            )
+                            BreedDetail(
+                                attribute = "Average weight",
+                                value = item.weight.metric,
+                            )
+                            BreedDetail(
+                                attribute = "Breed Purpose",
+                                value = item.bred_for ?: "Unknown",
+                            )
+                            BreedDetail(
+                                attribute = "Origin",
+                                value = item.origin ?: "Unknown",
+                            )
+                            BreedDetail(
+                                attribute = "Country",
+                                value = item.country_code ?: "Unknown",
                             )
                         }
-
-                        Text(
-                            item.name,
-                            style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 20.sp),
-                            modifier = Modifier.padding(16.dp)
-                        )
-
-
-                        Text(
-                            text = item.description ?: "",
-                            style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.Bold),
-
-                            )
-
-                        BreedDetail(
-                            attribute = "Breed Group",
-                            value = item.breed_group ?: "Unknown",
-                        )
-                        BreedDetail(
-                            attribute = "Character Traits",
-                            value = item.temperament,
-                        )
-                        BreedDetail(
-                            attribute = "Average Lifespan",
-                            value = item.life_span,
-                        )
-                        BreedDetail(
-                            attribute = "Average height",
-                            value = item.height.metric,
-                        )
-                        BreedDetail(
-                            attribute = "Average weight",
-                            value = item.weight.metric,
-                        )
-                        BreedDetail(
-                            attribute = "Breed Purpose",
-                            value = item.bred_for ?: "Unknown",
-                        )
-                        BreedDetail(
-                            attribute = "Origin",
-                            value = item.origin ?: "Unknown",
-                        )
-                        BreedDetail(
-                            attribute = "Country",
-                            value = item.country_code ?: "Unknown",
-                        )
+                        if (isLargeImageVisible) {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .background(Color.LightGray.copy(alpha = 0.9f)),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                SubcomposeAsyncImage(
+                                    model = ImageRequest.Builder(context = LocalContext.current)
+                                        .data(successState.listData.url).crossfade(true).build(),
+                                    contentDescription = "dog image",
+                                    loading = {
+                                        Column(
+                                            horizontalAlignment = Alignment.CenterHorizontally,
+                                            verticalArrangement = Arrangement.Center
+                                        ) {
+                                            Box(modifier = Modifier.size(50.dp)) {
+                                                CircularProgressIndicator()
+                                            }
+                                        }
+                                    },
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .clip(
+                                            RoundedCornerShape(16.dp)
+                                        )
+                                        .padding(16.dp),
+                                    contentScale = ContentScale.Fit,
+                                    alignment = Alignment.Center,
+                                )
+                            }
+                        }
                     }
                 }
             }

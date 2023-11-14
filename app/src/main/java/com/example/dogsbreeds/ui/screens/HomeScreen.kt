@@ -41,7 +41,12 @@ fun HomeScreen(
             val successState = homeUiState as HomeUiState.Success
 
             Scaffold(topBar = {
-                AppBar(title = "Username", showNavIcon = false, popNavigation = {})
+                AppBar(title = "Username",
+                    showNavIcon = false,
+                    popNavigation = {},
+                    showActionButton = false,
+                    action = {},
+                    )
             }) {
                 Column(
                     modifier = Modifier

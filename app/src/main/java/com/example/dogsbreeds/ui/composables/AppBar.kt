@@ -1,6 +1,7 @@
 package com.example.dogsbreeds.ui.composables
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.KeyboardArrowLeft
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -14,7 +15,13 @@ import androidx.compose.ui.unit.sp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AppBar(title: String, showNavIcon: Boolean, popNavigation: () -> Unit) {
+fun AppBar(
+    title: String,
+    showNavIcon: Boolean,
+    popNavigation: () -> Unit,
+    showActionButton: Boolean,
+    action: () -> Unit
+) {
     TopAppBar(title = {
         Text(text = title, style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 22.sp))
     }, navigationIcon = {
@@ -29,5 +36,11 @@ fun AppBar(title: String, showNavIcon: Boolean, popNavigation: () -> Unit) {
             }
         }
 
+    }, actions = {
+        if (showActionButton) {
+            IconButton(onClick = { action() }) {
+                Icon(imageVector = Icons.Rounded.Close, contentDescription = "Close icon button")
+            }
+        }
     })
 }
