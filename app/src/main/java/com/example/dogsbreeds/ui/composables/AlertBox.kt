@@ -1,6 +1,7 @@
 package com.example.dogsbreeds.ui.composables
 
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 
@@ -9,11 +10,14 @@ fun AlertBox(confirmAction: () -> Unit, dismissAction: () -> Unit, status: Strin
     AlertDialog(
         onDismissRequest = {},
         confirmButton = {
-            confirmAction()
+            Button(onClick = {confirmAction()}) {
+                Text("Ok")
+            }
         },
         dismissButton = {
-            dismissAction()
-        },
+            Button(onClick = {dismissAction()}) {
+                Text("Cancel")
+            }        },
         title = { Text(text = status) },
         text = { Text(title) },
     )

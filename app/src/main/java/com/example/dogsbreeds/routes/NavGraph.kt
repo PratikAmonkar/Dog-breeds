@@ -18,34 +18,44 @@ import com.example.dogsbreeds.ui.screens.SignUpScreen
 fun NavigationHost(
     navController: NavHostController, modifier: Modifier = Modifier
 ) {
-    NavHost(navController = navController, startDestination = "main-content", modifier = modifier) {
-        navigation(startDestination = "login", route = "authentication") {
+    NavHost(
+        navController = navController, startDestination = "authentication", modifier = modifier
+    ) {
+        navigation(startDestination = "signup", route = "authentication") {
             composable(route = "signup") {
-                SignUpScreen()
+                SignUpScreen(navigateToLoginScreen = {
+                    navController.navigate("login")
+                })
             }
             composable(route = "login") {
-                LoginScreen()
+                LoginScreen(
+                    navigateToSignUpScreen = {
+                        navController.navigate("signup")
+                    },
+                    navigateToMainScreen = {
+                        navController.navigate("main-content") {
+                            popUpTo(route = "authentication") {
+                                inclusive = true
+                            }
+                        }
+                    },
+                )
             }
         }
 
         navigation(startDestination = "home", route = "main-content") {
             composable(route = "home") {
-                HomeScreen(
-                    navigateToDetailScreen = {
-                        navController.navigate("detail/${it}")
-                    }
-                )
+                HomeScreen(navigateToDetailScreen = {
+                    navController.navigate("detail/${it}")
+                })
             }
             composable(
                 route = "detail/{imageId}",
                 arguments = listOf(navArgument("imageId") { type = NavType.StringType })
             ) {
-                DetailScreen(
-                    imageId = it.arguments?.getString("imageId"),
-                    popNavigation = {
-                        navController.popBackStack()
-                    }
-                )
+                DetailScreen(imageId = it.arguments?.getString("imageId"), popNavigation = {
+                    navController.popBackStack()
+                })
             }
         }
     }

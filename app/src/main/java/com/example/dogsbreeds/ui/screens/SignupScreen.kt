@@ -1,6 +1,7 @@
 package com.example.dogsbreeds.ui.screens
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -15,12 +16,14 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -35,7 +38,10 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.dogsbreeds.R
+import com.example.dogsbreeds.provider.AppViewModelProvider
+import com.example.dogsbreeds.state.SignUpScreenViewModel
 import com.example.dogsbreeds.ui.composables.AlertBox
 import com.example.dogsbreeds.ui.composables.AppBar
 import com.example.dogsbreeds.ui.composables.CustomButton
@@ -43,7 +49,14 @@ import com.example.dogsbreeds.ui.composables.CustomButton
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SignUpScreen() {
+fun SignUpScreen(
+    viewModel: SignUpScreenViewModel = viewModel(factory = AppViewModelProvider.Factory),
+    navigateToLoginScreen: () -> Unit
+
+) {
+    val errorState by viewModel.isError.collectAsState()
+    val loadingState by viewModel.isLoading.collectAsState()
+
 
     var userName by rememberSaveable {
         mutableStateOf("")
@@ -102,9 +115,7 @@ fun SignUpScreen() {
                     keyboardType = KeyboardType.Text,
                     imeAction = ImeAction.Done
                 ),
-                keyboardActions = KeyboardActions(
-                    onDone = {}
-                ),
+                keyboardActions = KeyboardActions(onDone = {}),
                 singleLine = true,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -130,9 +141,7 @@ fun SignUpScreen() {
                     keyboardType = KeyboardType.Text,
                     imeAction = ImeAction.Done
                 ),
-                keyboardActions = KeyboardActions(
-                    onDone = {}
-                ),
+                keyboardActions = KeyboardActions(onDone = {}),
                 singleLine = true,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -158,26 +167,34 @@ fun SignUpScreen() {
                     keyboardType = KeyboardType.Text,
                     imeAction = ImeAction.Done
                 ),
-                keyboardActions = KeyboardActions(
-                    onDone = {}
-                ),
+                keyboardActions = KeyboardActions(onDone = {}),
                 singleLine = true,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp),
             )
 
-            CustomButton(title = "Register", action = {
-                showAlertBox = true
-            })
-            if (showAlertBox) {
-                AlertBox(
-                    confirmAction = {},
-                    dismissAction = {
-                        showAlertBox = false
-                    },
-                    status = "Warning",
-                    title = "Some fields are empty"
+            if (loadingState) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center
+                ) {
+                    CircularProgressIndicator()
+                }
+            } else {
+                CustomButton(title = "Register", action = {
+                    viewModel.checkEmptyFields(
+                        userName = userName,
+                        userPassword = userPassword,
+                        userFullName = userFullName,
+                        navigateToLoginScreen = {navigateToLoginScreen()}
+                    )
+                })
+            }
+
+            if (errorState.isNotEmpty()) {
+                AlertBox(confirmAction = {}, dismissAction = {
+                    viewModel.updateErrorState()
+                }, status = "Warning", title = errorState
                 )
             }
             Text("OR", style = TextStyle(fontSize = 16.sp, fontWeight = FontWeight.W400))
@@ -186,16 +203,15 @@ fun SignUpScreen() {
                     .fillMaxWidth()
                     .padding(16.dp),
                 horizontalArrangement = Arrangement.Center
-            )
-            {
+            ) {
                 Text(
                     "Already have an account ? ",
                     style = TextStyle(fontSize = 16.sp, fontWeight = FontWeight.W400)
                 )
-                Text("Login ", style = TextStyle(fontSize = 16.sp, fontWeight = FontWeight.W400))
+                Text("Login ",
+                    style = TextStyle(fontSize = 16.sp, fontWeight = FontWeight.W400),
+                    modifier = Modifier.clickable { navigateToLoginScreen() })
             }
-
-
         }
     }
 }

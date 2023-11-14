@@ -7,6 +7,8 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.dogsbreeds.DogsBreedsApplication
 import com.example.dogsbreeds.state.DetailScreenViewModel
 import com.example.dogsbreeds.state.HomeScreenViewModel
+import com.example.dogsbreeds.state.LoginScreenViewModel
+import com.example.dogsbreeds.state.SignUpScreenViewModel
 
 object AppViewModelProvider {
     val Factory = viewModelFactory {
@@ -18,6 +20,14 @@ object AppViewModelProvider {
         initializer {
             DetailScreenViewModel(
                 inventoryApplication().container.dogRepository,
+            )
+        }
+        initializer {
+            SignUpScreenViewModel(
+            )
+        }
+        initializer {
+            LoginScreenViewModel(
             )
         }
     }
