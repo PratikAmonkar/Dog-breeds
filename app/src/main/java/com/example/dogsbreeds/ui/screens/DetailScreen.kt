@@ -39,8 +39,9 @@ import com.example.dogsbreeds.ui.composables.BreedDetail
 fun DetailScreen(
     imageId: String?,
     viewModel: DetailScreenViewModel = viewModel(factory = AppViewModelProvider.Factory),
+    popNavigation: () -> Unit
 
-    ) {
+) {
     val detailUiState by viewModel.dogState.collectAsState()
 
     imageId?.let { viewModel.getDogsBreedDetail(imageId = it) }
@@ -51,13 +52,11 @@ fun DetailScreen(
         }
 
         is DetailUiState.Error -> {
-            ErrorScreen(
-                action = {
-                    if (imageId != null) {
-                        viewModel.getDogsBreedDetail(imageId = imageId)
-                    }
+            ErrorScreen(action = {
+                if (imageId != null) {
+                    viewModel.getDogsBreedDetail(imageId = imageId)
                 }
-            )
+            })
         }
 
         else -> {
@@ -65,7 +64,10 @@ fun DetailScreen(
 
             successState.listData.breeds.forEach { item ->
                 Scaffold(topBar = {
-                    AppBar(title = item.name)
+                    AppBar(
+                        title = item.name,
+                        showNavIcon = true,
+                        popNavigation = { popNavigation() })
                 }) {
                     Column(
                         modifier = Modifier

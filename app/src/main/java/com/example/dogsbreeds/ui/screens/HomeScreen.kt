@@ -32,18 +32,16 @@ fun HomeScreen(
         }
 
         is HomeUiState.Error -> {
-            ErrorScreen(
-                action = {
-                    viewModel.getDogsBreeds()
-                }
-            )
+            ErrorScreen(action = {
+                viewModel.getDogsBreeds()
+            })
         }
 
         else -> {
             val successState = homeUiState as HomeUiState.Success
 
             Scaffold(topBar = {
-                AppBar(title = "Username")
+                AppBar(title = "Username", showNavIcon = false, popNavigation = {})
             }) {
                 Column(
                     modifier = Modifier
@@ -54,7 +52,7 @@ fun HomeScreen(
                         DisplayDogBreed(
                             navigateToDetailScreen = {
                                 navigateToDetailScreen(item.reference_image_id)
-                            }, data = item, index = index
+                            }, data = item, index = index + 1
                         )
                     }
                 }

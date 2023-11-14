@@ -51,7 +51,7 @@ fun LoginScreen() {
 
 
     Scaffold(topBar = {
-        AppBar(title = "Login")
+        AppBar(title = "Login",showNavIcon = false, popNavigation = {})
     }) {
         Column(
             modifier = Modifier

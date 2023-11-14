@@ -35,9 +35,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.dogsbreeds.R
-import com.example.dogsbreeds.provider.AppViewModelProvider
 import com.example.dogsbreeds.ui.composables.AlertBox
 import com.example.dogsbreeds.ui.composables.AppBar
 import com.example.dogsbreeds.ui.composables.CustomButton
@@ -64,7 +62,7 @@ fun SignUpScreen() {
 
 
     Scaffold(topBar = {
-        AppBar(title = "Signup")
+        AppBar(title = "Signup", showNavIcon = false, popNavigation = {})
     }) {
         Column(
             modifier = Modifier
