@@ -35,7 +35,10 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.dogsbreeds.R
+import com.example.dogsbreeds.provider.AppViewModelProvider
+import com.example.dogsbreeds.state.SignupScreenViewModel
 import com.example.dogsbreeds.ui.composables.AlertBox
 import com.example.dogsbreeds.ui.composables.AppBar
 import com.example.dogsbreeds.ui.composables.CustomButton
@@ -43,7 +46,9 @@ import com.example.dogsbreeds.ui.composables.CustomButton
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SignUpScreen() {
+fun SignUpScreen(
+    viewModel: SignupScreenViewModel = viewModel(factory = AppViewModelProvider.Factory),
+) {
 
     var userName by rememberSaveable {
         mutableStateOf("")

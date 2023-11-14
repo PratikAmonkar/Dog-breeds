@@ -6,11 +6,11 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.example.dogsbreeds.ui.screens.DetailScreen
-import com.example.dogsbreeds.ui.screens.HomeScreen
-import com.example.dogsbreeds.ui.screens.LoginScreen
-import com.example.dogsbreeds.ui.screens.SignUpScreen
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
+import com.example.dogsbreeds.routes.NavigationHost
 import com.example.dogsbreeds.ui.theme.DogsBreedsTheme
 
 class MainActivity : ComponentActivity() {
@@ -22,9 +22,14 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    DetailScreen()
+                    DoneIt()
                 }
             }
         }
     }
+}
+
+@Composable
+fun DoneIt(navController: NavHostController = rememberNavController()) {
+    NavigationHost(navController = navController)
 }
