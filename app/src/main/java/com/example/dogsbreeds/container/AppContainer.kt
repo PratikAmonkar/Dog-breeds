@@ -15,7 +15,11 @@ interface AppContainer {
     val userRepository: UserRepository
 }
 
+//AppContainer interface which serves as a dependency injection container for the application
 class AppDataContainer(private val context: Context) : AppContainer {
+
+
+//    and retrofit is used to fetch the api from remote api
 
     private val baseUrl = "https://api.thedogapi.com/v1/"
 
@@ -37,6 +41,4 @@ class AppDataContainer(private val context: Context) : AppContainer {
     override val userRepository: UserRepository by lazy {
         OfflineUserRepository(DogsBreedsDatabase.getDatabase(context).userDao())
     }
-
-
 }

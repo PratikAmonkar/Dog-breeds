@@ -25,6 +25,7 @@ class SignUpScreenViewModel(private val userRepository: UserRepository) : ViewMo
     ).stateIn(
         viewModelScope, started = SharingStarted.WhileSubscribed(5000), initialValue = ""
     )
+//    function to check whether fields are empty or not
 
     fun checkEmptyFields(
         userName: String,
@@ -45,6 +46,7 @@ class SignUpScreenViewModel(private val userRepository: UserRepository) : ViewMo
 
         }
     }
+//    function to check validation for password
 
     private fun checkPasswordValidation(userPassword: String) {
         if (userPassword.length < 8) {

@@ -4,21 +4,20 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
 
 @Composable
-fun AlertBox(confirmAction: () -> Unit, dismissAction: () -> Unit, status: String, title: String) {
+fun AlertBox( dismissAction: () -> Unit, status: String, title: String) {
     AlertDialog(
         onDismissRequest = {},
         confirmButton = {
-            Button(onClick = {confirmAction()}) {
+            Button(onClick = { dismissAction() }) {
                 Text("Ok")
             }
         },
-        dismissButton = {
-            Button(onClick = {dismissAction()}) {
-                Text("Cancel")
-            }        },
-        title = { Text(text = status) },
+        title = { Text(text = status, style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 20.sp)) },
         text = { Text(title) },
     )
 }

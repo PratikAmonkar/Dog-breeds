@@ -16,6 +16,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -136,7 +137,7 @@ fun DetailScreen(
                             Text(
                                 text = item.description ?: "",
                                 style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.Bold),
-
+                                modifier = Modifier.padding(16.dp)
                                 )
 
                             BreedDetail(
@@ -176,7 +177,7 @@ fun DetailScreen(
                             Box(
                                 modifier = Modifier
                                     .fillMaxSize()
-                                    .background(Color.LightGray.copy(alpha = 0.9f)),
+                                    .background(MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.9f)),
                                 contentAlignment = Alignment.Center
                             ) {
                                 SubcomposeAsyncImage(

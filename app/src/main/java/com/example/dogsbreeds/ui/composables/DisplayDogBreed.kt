@@ -10,12 +10,15 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.KeyboardArrowRight
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.dogsbreeds.models.DogBreed
 
 @Composable
@@ -23,16 +26,21 @@ fun DisplayDogBreed(navigateToDetailScreen: () -> Unit, data: DogBreed, index: I
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(5.dp)
-            .background(color = Color.LightGray, shape = RoundedCornerShape(20.dp))
+            .padding(10.dp)
+            .background(
+                color = MaterialTheme.colorScheme.primaryContainer,
+                shape = RoundedCornerShape(20.dp)
+            )
             .padding(10.dp)
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Text(index.toString())
+            Text(index.toString(), style = TextStyle(fontWeight = FontWeight.SemiBold, fontSize = 18.sp))
             Text(
-                data.name, modifier = Modifier
+                data.name,
+                modifier = Modifier
                     .weight(1f)
-                    .padding(horizontal = 10.dp)
+                    .padding(horizontal = 10.dp),
+                style = TextStyle(fontWeight = FontWeight.SemiBold, fontSize = 18.sp)
             )
             IconButton(onClick = {
                 navigateToDetailScreen()

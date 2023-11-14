@@ -26,6 +26,7 @@ class LoginScreenViewModel(private val userRepository: UserRepository) : ViewMod
         viewModelScope, started = SharingStarted.WhileSubscribed(5000), initialValue = ""
     )
 
+//    function to check whether fields are empty or not
     fun checkEmptyFields(userName: String, userPassword: String, navigateToMainScreen: () -> Unit) {
         _isLoading.value = true
         if (userName.isNotEmpty() && userPassword.isNotEmpty()) {

@@ -32,6 +32,7 @@ class HomeScreenViewModel(private val dogRepository: DogRepository) : ViewModel(
     init {
         getDogsBreeds()
     }
+//    this is coroutine function which get all the dog breeds data
 
      fun getDogsBreeds() {
         viewModelScope.launch {

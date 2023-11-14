@@ -157,7 +157,7 @@ fun LoginScreen(
             }
 
             if (errorState.isNotEmpty()) {
-                AlertBox(confirmAction = {}, dismissAction = {
+                AlertBox( dismissAction = {
                     viewModel.updateErrorState()
                 }, status = "Warning", title = errorState
                 )
