@@ -20,7 +20,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -28,183 +27,176 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.SubcomposeAsyncImage
 import coil.request.ImageRequest
-import com.example.dogsbreeds.provider.AppViewModelProvider
-import com.example.dogsbreeds.state.DetailScreenViewModel
-import com.example.dogsbreeds.state.DetailUiState
+import com.example.dogsbreeds.models.DogImage
 import com.example.dogsbreeds.ui.composables.AppBar
 import com.example.dogsbreeds.ui.composables.BreedDetail
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailScreen(
-    imageId: String?,
-    viewModel: DetailScreenViewModel = viewModel(factory = AppViewModelProvider.Factory),
-    popNavigation: () -> Unit
+    data: DogImage?, popNavigation: () -> Unit
 
 ) {
-    val detailUiState by viewModel.dogState.collectAsState()
 
-    imageId?.let { viewModel.getDogsBreedDetail(imageId = it) }
 
     var isLargeImageVisible by remember { mutableStateOf(false) }
 
 
-    when (detailUiState) {
-        is DetailUiState.Loading -> {
-            LoadingScreen()
-        }
+//    when (detailUiState) {
+//        is DetailUiState.Loading -> {
+//            LoadingScreen()
+//        }
+//
+//        is DetailUiState.Error -> {
+//            ErrorScreen(action = {
+//                if (imageId != null) {
+//                    viewModel.getDogsBreedDetail(imageId = imageId)
+//                }
+//            })
+//        }
+//
+//        else -> {
+//    val successState = detailUiState as DetailUiState.Success
 
-        is DetailUiState.Error -> {
-            ErrorScreen(action = {
-                if (imageId != null) {
-                    viewModel.getDogsBreedDetail(imageId = imageId)
-                }
-            })
-        }
+    data?.breeds?.forEach { item ->
+        Scaffold(topBar = {
+            AppBar(
+                title = item.name,
+                showNavIcon = true,
+                popNavigation = { popNavigation() }, showActionButton = isLargeImageVisible,
+                action = {
+                    isLargeImageVisible = false
+                },
+            )
+        }) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(it)
+            ) {
+                Column(
+                    modifier = Modifier.verticalScroll(
+                        rememberScrollState(),
+                    ),
+                ) {
+                    Box(modifier = Modifier
+                        .fillMaxWidth()
+                        .height(300.dp)
+                        .clip(RoundedCornerShape(16.dp))
+                        .wrapContentSize()
+                        .clickable {
+                            isLargeImageVisible = true
+                        }) {
+                        SubcomposeAsyncImage(
+                            model = ImageRequest.Builder(context = LocalContext.current)
+                                .data(data.url).crossfade(true).build(),
+                            contentDescription = "dog image",
+                            loading = {
+                                Column(
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    verticalArrangement = Arrangement.Center
+                                ) {
+                                    Box(modifier = Modifier.size(50.dp)) {
+                                        CircularProgressIndicator()
+                                    }
+                                }
+                            },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(10.dp)
+                                .clip(RoundedCornerShape(20.dp)),
+                            contentScale = ContentScale.Crop,
+                            alignment = Alignment.Center,
+                        )
+                    }
 
-        else -> {
-            val successState = detailUiState as DetailUiState.Success
-
-            successState.listData.breeds.forEach { item ->
-                Scaffold(topBar = {
-                    AppBar(
-                        title = item.name,
-                        showNavIcon = true,
-                        popNavigation = { popNavigation() }, showActionButton = isLargeImageVisible,
-                        action = {
-                            isLargeImageVisible = false
-                        },
+                    Text(
+                        item.name,
+                        style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 20.sp),
+                        modifier = Modifier.padding(16.dp)
                     )
-                }) {
+
+
+                    Text(
+                        text = item.description ?: "",
+                        style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.Bold),
+                        modifier = Modifier.padding(16.dp)
+                    )
+
+                    BreedDetail(
+                        attribute = "Breed Group",
+                        value = item.breed_group ?: "Unknown",
+                    )
+                    BreedDetail(
+                        attribute = "Character Traits",
+                        value = item.temperament,
+                    )
+                    BreedDetail(
+                        attribute = "Average Lifespan",
+                        value = item.life_span,
+                    )
+                    BreedDetail(
+                        attribute = "Average height",
+                        value = item.height.metric,
+                    )
+                    BreedDetail(
+                        attribute = "Average weight",
+                        value = item.weight.metric,
+                    )
+                    BreedDetail(
+                        attribute = "Breed Purpose",
+                        value = item.bred_for ?: "Unknown",
+                    )
+                    BreedDetail(
+                        attribute = "Origin",
+                        value = item.origin ?: "Unknown",
+                    )
+                    BreedDetail(
+                        attribute = "Country",
+                        value = item.country_code ?: "Unknown",
+                    )
+                }
+                if (isLargeImageVisible) {
                     Box(
                         modifier = Modifier
                             .fillMaxSize()
-                            .padding(it)
+                            .background(
+                                MaterialTheme.colorScheme.primaryContainer.copy(
+                                    alpha = 0.9f
+                                )
+                            ), contentAlignment = Alignment.Center
                     ) {
-                        Column(
-                            modifier = Modifier.verticalScroll(
-                                rememberScrollState(),
-                            ),
-                        ) {
-                            Box(modifier = Modifier
-                                .fillMaxWidth()
-                                .height(300.dp)
-                                .clip(RoundedCornerShape(16.dp))
-                                .wrapContentSize()
-                                .clickable {
-                                    isLargeImageVisible = true
-                                }) {
-                                SubcomposeAsyncImage(
-                                    model = ImageRequest.Builder(context = LocalContext.current)
-                                        .data(successState.listData.url).crossfade(true).build(),
-                                    contentDescription = "dog image",
-                                    loading = {
-                                        Column(
-                                            horizontalAlignment = Alignment.CenterHorizontally,
-                                            verticalArrangement = Arrangement.Center
-                                        ) {
-                                            Box(modifier = Modifier.size(50.dp)) {
-                                                CircularProgressIndicator()
-                                            }
-                                        }
-                                    },
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(10.dp)
-                                        .clip(RoundedCornerShape(20.dp)),
-                                    contentScale = ContentScale.Crop,
-                                    alignment = Alignment.Center,
+                        SubcomposeAsyncImage(
+                            model = ImageRequest.Builder(context = LocalContext.current)
+                                .data(data.url).crossfade(true).build(),
+                            contentDescription = "dog image",
+                            loading = {
+                                Column(
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    verticalArrangement = Arrangement.Center
+                                ) {
+                                    Box(modifier = Modifier.size(50.dp)) {
+                                        CircularProgressIndicator()
+                                    }
+                                }
+                            },
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .clip(
+                                    RoundedCornerShape(16.dp)
                                 )
-                            }
-
-                            Text(
-                                item.name,
-                                style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 20.sp),
-                                modifier = Modifier.padding(16.dp)
-                            )
-
-
-                            Text(
-                                text = item.description ?: "",
-                                style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.Bold),
-                                modifier = Modifier.padding(16.dp)
-                                )
-
-                            BreedDetail(
-                                attribute = "Breed Group",
-                                value = item.breed_group ?: "Unknown",
-                            )
-                            BreedDetail(
-                                attribute = "Character Traits",
-                                value = item.temperament,
-                            )
-                            BreedDetail(
-                                attribute = "Average Lifespan",
-                                value = item.life_span,
-                            )
-                            BreedDetail(
-                                attribute = "Average height",
-                                value = item.height.metric,
-                            )
-                            BreedDetail(
-                                attribute = "Average weight",
-                                value = item.weight.metric,
-                            )
-                            BreedDetail(
-                                attribute = "Breed Purpose",
-                                value = item.bred_for ?: "Unknown",
-                            )
-                            BreedDetail(
-                                attribute = "Origin",
-                                value = item.origin ?: "Unknown",
-                            )
-                            BreedDetail(
-                                attribute = "Country",
-                                value = item.country_code ?: "Unknown",
-                            )
-                        }
-                        if (isLargeImageVisible) {
-                            Box(
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .background(MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.9f)),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                SubcomposeAsyncImage(
-                                    model = ImageRequest.Builder(context = LocalContext.current)
-                                        .data(successState.listData.url).crossfade(true).build(),
-                                    contentDescription = "dog image",
-                                    loading = {
-                                        Column(
-                                            horizontalAlignment = Alignment.CenterHorizontally,
-                                            verticalArrangement = Arrangement.Center
-                                        ) {
-                                            Box(modifier = Modifier.size(50.dp)) {
-                                                CircularProgressIndicator()
-                                            }
-                                        }
-                                    },
-                                    modifier = Modifier
-                                        .fillMaxSize()
-                                        .clip(
-                                            RoundedCornerShape(16.dp)
-                                        )
-                                        .padding(16.dp),
-                                    contentScale = ContentScale.Fit,
-                                    alignment = Alignment.Center,
-                                )
-                            }
-                        }
+                                .padding(16.dp),
+                            contentScale = ContentScale.Fit,
+                            alignment = Alignment.Center,
+                        )
                     }
                 }
             }

@@ -28,14 +28,14 @@ class DetailScreenViewModel(private val dogRepository: DogRepository) : ViewMode
     )
 
 //    this coroutine function which get all the details of dog breed based on specific image id
-    fun getDogsBreedDetail(imageId: String) {
-        viewModelScope.launch {
-            try {
-                val dogsList = dogRepository.getAllDogsBreedDetails(imageId = imageId)
-                _dogState.value = DetailUiState.Success(listData = dogsList)
-            } catch (e: Exception) {
-                _dogState.value = DetailUiState.Error(errorMessage = "Failed to fetch data")
-            }
-        }
-    }
+//    fun getDogsBreedDetail(imageId: String) {
+//        viewModelScope.launch {
+//            try {
+//                val dogsList = dogRepository.getAllDogsBreedDetails(imageId = imageId)
+//                _dogState.value = DetailUiState.Success(listData = dogsList)
+//            } catch (e: Exception) {
+//                _dogState.value = DetailUiState.Error(errorMessage = "Failed to fetch data")
+//            }
+//        }
+//    }
 }
