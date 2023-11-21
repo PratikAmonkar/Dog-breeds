@@ -46,16 +46,21 @@ fun NavigationHost(
 
         navigation(startDestination = "home", route = "main-content") {
             composable(route = "home") {
-                HomeScreen(data = viewModel.dogBreedState.value,
+                HomeScreen(
+                    data = viewModel.dogBreedState,
                     navigateToDetailScreen = {
                         viewModel.getDogsBreedDetail(imageId = it)
                         navController.navigate("detail")
-                    })
+                    },
+                )
             }
             composable(route = "detail") {
-                DetailScreen(data = viewModel.dogDetailState.value, popNavigation = {
-                    navController.popBackStack()
-                })
+                DetailScreen(
+                    data = viewModel.dogDetailState,
+                    popNavigation = {
+                        navController.popBackStack()
+                    },
+                )
             }
         }
     }
